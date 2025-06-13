@@ -42,7 +42,7 @@ async function askAI(messages) {
 
 function ChatWindow() {
   const [messages, setMessages] = useState([
-    { role: 'system', content: 'ฉันคือ AI ที่ช่วยสัมภาษณ์เพื่อเก็บ Scope งาน' },
+    { role: 'system', content: 'คุณคือ AI ที่ช่วยสัมภาษณ์เพื่อเก็บ Scope งาน' },
     { role: 'assistant', content: 'สวัสดีค่ะ! กรุณาบอกชื่อบริษัทของคุณ' }
   ]);
   const [input, setInput] = useState('');
@@ -131,7 +131,14 @@ function ChatWindow() {
 
   return (
     <div className="chat-window">
-     
+      <button
+        onClick={async () => {
+          const res = await sendScopeSummary({ company: "My Company", problem: "Pain point" });
+          console.log(res);
+        }}
+      >
+        ทดสอบส่ง Scope Summary
+      </button>
       <div className="chat-header">AI Interview Room</div>
       <div className="chat-body">
         {messages.map((msg, idx) => (
