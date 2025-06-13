@@ -100,6 +100,8 @@ def create_user(user: User):
         return {"status": "success", "message": "User created successfully"}
     except mysql.connector.Error as err:
         return JSONResponse(status_code=500, content={"error": str(err)})
+    
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -115,10 +117,10 @@ load_dotenv(dotenv_path=env_path)
 
 
 
-# อนุญาตให้ frontend (React) เรียก API ได้
+# CALL API 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # หรือระบุ origin ของคุณ
+    allow_origins=["http://localhost:5173"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -255,7 +257,7 @@ def login_user(login_data: LoginData, response: Response):
         logger.error(f"Database error: {str(err)}")
         return JSONResponse(status_code=500, content={"error": str(err)})
     
-# JWT utility (ต้องมี SECRET_KEY, ALGORITHM, create_access_token, verify_token)
+# JWT utility 
 
 def get_current_user(access_token: str = Cookie(None)):
     if not access_token:
