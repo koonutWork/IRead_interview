@@ -1,4 +1,6 @@
-# move floder node_modules into IRC folder
+# *move floder node_modules into IRC folder
+
+
 # iRead Customer AI Chat (IRC)
 
 iRead Customer AI Chat (IRC) เป็นระบบที่ช่วยให้ผู้ใช้งานสามารถเก็บ Requirement ของโปรเจกต์ผ่านการสนทนากับ AI ได้อย่างสะดวกและรวดเร็ว พร้อมทั้งสามารถจัดการข้อมูล Requirement และประเมิน Manday ได้ในที่เดียว
