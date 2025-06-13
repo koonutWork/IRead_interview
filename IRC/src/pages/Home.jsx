@@ -66,9 +66,11 @@ function Home({ currentUser }) {
           View Pricing
         </button>
       </div>
+      <footer className="home-footer">
       <div className="version-info">
         Version: {welcomeData?.version}
       </div>
+      </footer>
     </div>
   );
 }
