@@ -4,50 +4,56 @@
 Accepted
 
 ## Context
-The iRead Customer AI Chat Platform is designed with multiple "Agents" (such as Conversational AI, Manday Matrix, Scope Summary Agent, etc.) to support various features like requirement gathering, manday estimation, and scope summary generation. **Agent Routing** is the mechanism that determines which Agent should process each type of user request or message.
+The iRead Customer AI Chat Platform is a full-stack application with a React (Vite) frontend and a FastAPI backend. The backend is designed to handle multiple types of user requests, such as conversational AI chat, manday estimation, and scope summary generation. Each of these features is implemented as a separate logical "Agent" in the backend. Agent Routing refers to the mechanism by which incoming requests are dispatched to the appropriate agent (endpoint/function) for processing.
 
 ## Decision
-- The system will have an **Agent Router** as an intermediary to receive requests/messages from the frontend.
-- The Agent Router will analyze the intent or endpoint of each request.
-- It will then route the request to the appropriate Agent, for example:
-    - If the message is a general chat or requirement, it is routed to the Conversational AI Agent.
-    - If the request is for manday estimation, it is routed to the Manday Matrix Agent.
-    - If the request is to generate a scope summary, it is routed to the Scope Summary Agent.
-- Routing can be rule-based (e.g., by path or keyword) or AI-based (intent classification).
+- The FastAPI backend exposes multiple endpoints, each corresponding to a specific agent:
+    - `/ask` for Conversational AI (requirement gathering)
+    - `/manday-matrix` for Manday Matrix (estimation)
+    - `/scope-summary` for Scope Summary (project scope export)
+- The frontend (React) sends requests to these endpoints based on user actions and UI context.
+- Session management and authentication are handled via JWT tokens stored in httpOnly cookies, with session validation on protected endpoints (e.g., `/protected-endpoint`).
+- The routing logic is currently rule-based, determined by the API endpoint path. Each endpoint is responsible for invoking the correct business logic (agent) in the backend.
+- The architecture is designed to be extensible: new agents can be added as new endpoints and integrated into the router.
 
 ## Consequences
-- Increases flexibility for system expansion (new Agents can be added easily).
-- Clear separation of responsibilities for each Agent.
-- Routing logic can be improved without affecting other Agents.
-- May require state or session management between Agents.
+- The system is modular and easy to extend with new agents/endpoints.
+- Each agent is isolated in its own endpoint, making maintenance and testing easier.
+- The frontend does not need to know the internal logic of each agent, only the API contract.
+- Security and session management are centralized via JWT and cookie-based authentication.
+- The current routing is rule-based; future improvements could include intent-based or AI-driven routing if needed.
 
 ## Example
-Suppose a user sends a message via the chat interface:
-- If the message is a general requirement, the Agent Router forwards it to the Conversational AI Agent.
-- If the user requests a manday estimation, the Agent Router forwards the request to the Manday Matrix Agent.
-- If the user wants to export a scope summary, the Agent Router forwards the request to the Scope Summary Agent.
+- When a user interacts with the chat, the frontend sends messages to `/ask`, which is handled by the Conversational AI agent.
+- When a user requests a manday estimation, the frontend sends data to `/manday-matrix`, which is handled by the Manday Matrix agent.
+- When a user wants to export a scope summary, the frontend interacts with `/scope-summary`.
+- Session validation is performed by calling `/protected-endpoint`, which checks the JWT in the cookie.
 
 ## Diagram
 
 ```mermaid
 flowchart TD
     User["User (Frontend)"]
-    Router["Agent Router"]
-    AI["Conversational AI Agent"]
-    Manday["Manday Matrix Agent"]
-    Scope["Scope Summary Agent"]
+    Router["FastAPI Router"]
+    AI["Conversational AI Agent (/ask)"]
+    Manday["Manday Matrix Agent (/manday-matrix)"]
+    Scope["Scope Summary Agent (/scope-summary)"]
+    Auth["Session/Auth Endpoints"]
 
     User --> Router
-    Router -- "Chat/Requirement" --> AI
-    Router -- "Manday Estimation" --> Manday
-    Router -- "Scope Summary" --> Scope
+    Router -- "/ask" --> AI
+    Router -- "/manday-matrix" --> Manday
+    Router -- "/scope-summary" --> Scope
+    Router -- "/auth/*, /protected-endpoint" --> Auth
 ```
 
 ## Alternatives Considered
-- Let the frontend call each Agent directly (but this increases coupling and makes expansion harder).
-- Use microservices for each Agent (may be too complex for the initial phase).
+- Letting the frontend call each agent as a microservice (adds complexity, not needed at this stage).
+- Using a single endpoint with intent classification to route requests (more flexible, but unnecessary for current requirements).
 
 ## References
 - [ADR Template](https://adr.github.io/)
+- [FastAPI Docs](https://fastapi.tiangolo.com/)
+- [React Docs](https://react.dev/)
 
 
