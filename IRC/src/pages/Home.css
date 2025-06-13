@@ -1,0 +1,85 @@
+.home-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  background-color: #000;
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.home-title {
+  font-size: 2.5rem;
+  color: #ff7f00;
+  margin-bottom: 1rem;
+}
+
+.home-subtitle {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+
+.user-info {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.cta-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.cta-button.primary {
+  background: #ff7f00;
+  color: white;
+}
+
+.cta-button.primary:hover {
+  background: #e66a00;
+}
+
+.cta-button.secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.cta-button.secondary:hover {
+  background: #5a6268;
+}
+
+.version-info {
+  color: #ccc;
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+
+.loading {
+  color: #ccc;
+  font-size: 1.1rem;
+  margin: 2rem 0;
+}
+
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  font-size: 1rem;
+  border: 1px solid #f5c6cb;
+}
