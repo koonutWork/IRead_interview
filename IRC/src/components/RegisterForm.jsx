@@ -15,7 +15,7 @@ function RegisterForm() {
     setError('');
 
     if (password !== confirmPassword) {
-      setError('รหัสผ่านไม่ตรงกัน');
+      setError('Passwords do not match');
       return;
     }
 
@@ -36,7 +36,6 @@ function RegisterForm() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        // รองรับทั้ง error.detail และ error.error
         throw new Error(errorData.detail || errorData.error || 'Registration failed');
       }
 
@@ -50,54 +49,47 @@ function RegisterForm() {
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit} className="login-form">
-      
-        <h2>สมัครสมาชิก</h2>
-         {/* Display error message */}
-        {error && <div className="error-message">{error}</div>}
-        <div className="form-group">
-          <label htmlFor="email">อีเมล</label>
+    <div className="login-wrap">
+      <h2>Register</h2>
+      <div className="form">
+        <form onSubmit={handleSubmit}>
+          {error && <div className="error-message">{error}</div>}
           <input
             type="email"
-            id="email"
+            placeholder="Email"
+            name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            placeholder="your@email.com"
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">รหัสผ่าน</label>
           <input
             type="password"
-            id="password"
+            placeholder="Password"
+            name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            placeholder="••••••••"
             minLength={8}
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="confirmPassword">ยืนยันรหัสผ่าน</label>
           <input
             type="password"
-            id="confirmPassword"
+            placeholder="Confirm Password"
+            name="confirmPassword"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            placeholder="••••••••"
             minLength={8}
           />
-        </div>
-         
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'กำลังสมัครสมาชิก...' : 'สมัครสมาชิก'}
-        </button>
-      </form>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? 'Registering...' : 'Register'}
+          </button>
+        </form>
+        <a href="/login">
+          <p>Already have an account? Login</p>
+        </a>
+      </div>
     </div>
   );
 }
 
-export default RegisterForm; 
+export default RegisterForm;
