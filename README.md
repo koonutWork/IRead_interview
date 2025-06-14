@@ -1,6 +1,7 @@
 # *move floder node_modules into IRC folder
 
 
+ 
 # iRead Customer AI Chat (IRC)
 
 iRead Customer AI Chat (IRC) เป็นระบบที่ช่วยให้ผู้ใช้งานสามารถเก็บ Requirement ของโปรเจกต์ผ่านการสนทนากับ AI ได้อย่างสะดวกและรวดเร็ว พร้อมทั้งสามารถจัดการข้อมูล Requirement และประเมิน Manday ได้ในที่เดียว
@@ -67,10 +68,24 @@ IRC/
 npm install
 pip install -r [requirements.txt](http://_vscodecontentref_/2)
 ```
+### 4. ติดตั้ง libary
+```bash
+npm i react-router-dom@6    
+pip install fastapi 
+pip install fastapi uvicorn openai    
+pip install python-jose[cryptography] passlib[bcrypt] fastapi
+pip install mysql-connector-python
+pip install python-dotenv  
+npm install jspdf      
+npm install html2canvas jspdf  
+npm install yaml    
+```
+
 ### 3. เริ่มต้น Backend
 รันคำสั่งเพื่อเริ่มต้นเซิร์ฟเวอร์ FastAPI:
 ```bash
 fastapi dev .\main.py     
+uvicorn main:app --reload
 ```
 
 ### 4. เริ่มต้น Frontend
