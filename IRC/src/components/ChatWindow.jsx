@@ -42,7 +42,7 @@ async function askAI(messages) {
 
 function ChatWindow() {
   const [messages, setMessages] = useState([
-    { role: 'system', content: 'คุณคือ AI ที่ช่วยสัมภาษณ์เพื่อเก็บ Scope งาน' },
+    { role: 'system', content: 'ฉันคือ AI ที่ช่วยสัมภาษณ์เพื่อเก็บ Scope งาน' },
     { role: 'assistant', content: 'สวัสดีค่ะ! กรุณาบอกชื่อบริษัทของคุณ' }
   ]);
   const [input, setInput] = useState('');
@@ -106,8 +106,8 @@ function ChatWindow() {
           } else {
             const completionMessage = 'ขอบคุณสำหรับข้อมูลค่ะ! คุณสามารถดูสรุป Scope ได้โดยคลิกที่ปุ่ม "ดู Scope Summary"';
             setMessages([...newMessages, { role: 'assistant', content: completionMessage }]);
-            // Ensure answers is fully updated before sending
-            const finalAnswers = { ...answers, [currentQ.key]: userMessage }; // Make sure the last answer is included
+            
+            const finalAnswers = { ...answers, [currentQ.key]: userMessage };
             setAnswers(finalAnswers); // Update state
             await sendScopeSummary(finalAnswers); // Send the complete object
           }
@@ -131,14 +131,7 @@ function ChatWindow() {
 
   return (
     <div className="chat-window">
-      <button
-        onClick={async () => {
-          const res = await sendScopeSummary({ company: "My Company", problem: "Pain point" });
-          console.log(res);
-        }}
-      >
-        ทดสอบส่ง Scope Summary
-      </button>
+     
       <div className="chat-header">AI Interview Room</div>
       <div className="chat-body">
         {messages.map((msg, idx) => (
@@ -183,7 +176,7 @@ function ChatWindow() {
             const jsonUrl = URL.createObjectURL(jsonBlob);
             const jsonLink = document.createElement('a');
             jsonLink.href = jsonUrl;
-            jsonLink.download = 'scope_summary.json';
+            jsonLink.download = 'sample_summary.json';
             document.body.appendChild(jsonLink);
             jsonLink.click();
             document.body.removeChild(jsonLink);
@@ -199,7 +192,7 @@ function ChatWindow() {
               doc.text(`${key}: ${value || '-'}`, 14, y);
               y += 10;
             });
-            doc.save('scope_summary.pdf');
+            doc.save('sample_summary.pdf');
           }}
           disabled={Object.keys(answers).length === 0}
         >
