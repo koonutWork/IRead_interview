@@ -4,7 +4,8 @@ FastAPI application for iRead Customer AI Chat
 from fastapi import FastAPI, Request, HTTPException, Depends,Response,Cookie
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse,StreamingResponse
+from reportlab.pdfgen import canvas
 from openai import OpenAI, RateLimitError
 from dotenv import load_dotenv
 import os
@@ -13,8 +14,10 @@ from pathlib import Path
 import mysql.connector
 from pydantic import BaseModel
 import bcrypt
+import asyncio
 from jose import jwt, JWTError
 from datetime import datetime, timedelta
+import json
 
 
 #JWT
@@ -178,6 +181,68 @@ async def ai_chat(request: Request):
         logger.error(f"Error in AI chat: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
     
+@app.post("/ask")
+async def conversational_ai(data: dict):
+    """
+    Conversational AI Agent: Handles user queries and gathers requirements.
+    """
+    # Example: Process user query and return structured data
+    user_query = data.get("query", "")
+    if not user_query:
+        raise HTTPException(status_code=400, detail="Query is required")
+    
+    # Simulate AI processing
+    response = {
+        "COMPANY_PROFILE": "ACME Foods Ltd.",
+        "BUSINESS_PROBLEM": "Low sales for new products",
+        "PURPOSE_OF_PROJECTS": "MARKET_RESEARCH",
+        "BUDGET": "≤ 1 million THB"
+    }
+    return {"agent": "Conversational AI", "response": response}
+
+
+@app.post("/export-scope-summary")
+async def export_scope_summary(data: dict):
+    """
+    Export scope summary as JSON and PDF.
+    """
+    try:
+        # Generate JSON file
+        json_file = "scope_summary.json"
+        with open(json_file, "w") as f:
+            json.dump(data, f, indent=4)
+
+        # Generate PDF file
+        pdf_file = "scope_summary.pdf"
+        pdf = canvas.Canvas(pdf_file)
+        pdf.drawString(100, 750, f"Company: {data.get('COMPANY_PROFILE', '')}")
+        pdf.drawString(100, 730, f"Business Problem: {data.get('BUSINESS_PROBLEM', '')}")
+        pdf.drawString(100, 710, f"Purpose: {data.get('PURPOSE_OF_PROJECTS', '')}")
+        pdf.drawString(100, 690, f"Budget: {data.get('BUDGET', '')}")
+        pdf.save()
+
+        return {"status": "success", "files": [json_file, pdf_file]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error exporting scope summary: {str(e)}")
+
+@app.get("/stream-ask")
+async def stream_ask():
+    """
+    Streaming responses for Conversational AI Agent.
+    """
+    async def event_generator():
+        responses = [
+            "Analyzing user query...",
+            "Identifying business problem...",
+            "Generating structured response...",
+            "Finalizing output..."
+        ]
+        for response in responses:
+            yield f"data: {response}\n\n"
+            await asyncio.sleep(1)
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
+
+    
 # Define a Pydantic model for user registration data
 class UserRegistration(BaseModel):
     email: str
@@ -322,14 +387,39 @@ async def get_manday_matrix():
     return matrix
 
 @app.post("/manday-matrix")
-async def update_manday_matrix(new_matrix: dict):
-    global matrix
-    try:
-        matrix = new_matrix
-        return {"status": "success", "message": "Matrix updated successfully"}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+async def manday_matrix(data: dict):
+    """
+    Manday Matrix Agent: Estimates project effort in mandays.
+    """
+    role = data.get("role", "developer")
+    level = data.get("level", "junior")
+    task = data.get("task", "basic")
 
+    try:
+        role_data = matrix["roles"].get(role, {})
+        task_data = matrix["tasks"].get(task, {})
+        manday = role_data.get(level, {}).get("manday", 0) + task_data.get("manday", 0)
+        return {"agent": "Manday Matrix", "manday": manday}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error calculating mandays: {str(e)}")
+
+    
+@app.post("/scope-summary")
+async def scope_summary(data: dict):
+    """
+    Scope Summary Agent: Generates project scope summary.
+    """
+    try:
+        # Example: Generate structured JSON summary
+        summary = {
+            "COMPANY_PROFILE": data.get("COMPANY_PROFILE", ""),
+            "BUSINESS_PROBLEM": data.get("BUSINESS_PROBLEM", ""),
+            "PURPOSE_OF_PROJECTS": data.get("PURPOSE_OF_PROJECTS", ""),
+            "BUDGET": data.get("BUDGET", "")
+        }
+        return {"agent": "Scope Summary", "summary": summary}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error generating scope summary: {str(e)}")
 
 
 if __name__ == "__main__":

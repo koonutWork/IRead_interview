@@ -1,0 +1,21 @@
+# Use official Node.js image
+FROM node:19
+
+# Set work directory
+WORKDIR /app
+
+# Install dependencies
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copy application files
+COPY . .
+
+# Build the frontend
+RUN npm run build
+
+# Expose port
+EXPOSE 80
+
+# Start the frontend
+CMD ["npx", "serve", "-s", "dist", "-l", "80"]
