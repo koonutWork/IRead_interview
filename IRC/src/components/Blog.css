@@ -1,0 +1,105 @@
+.blog-root {
+    background: #131313;
+    min-height: 100vh;
+    padding: 48px 0;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    max-width: 90vw;
+    margin: 0 auto;
+  }
+  .blog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+  }
+  .blog-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .blog-header p {
+    color: #ccc;
+    font-size: 1.1rem;
+  }
+  .lang-switcher {
+    display: flex;
+    gap: 8px;
+  }
+  .lang-switcher button {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .lang-switcher button.active,
+  .lang-switcher button:hover {
+    background: #ff7a2f;
+    color: #fff;
+  }
+  .blog-list {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .blog-card {
+    background: #222;
+    border-radius: 16px;
+    overflow: hidden;
+    width: 340px;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.12);
+  }
+  .blog-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background: #333;
+  }
+  .blog-no-image {
+    width: 100%;
+    height: 180px;
+    background: #333;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+  .blog-card-content {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .blog-tag {
+    background: #ff7a2f;
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 2px 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+  .blog-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 0 8px 0;
+  }
+  .blog-desc {
+    color: #ccc;
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+  .blog-meta {
+    color: #aaa;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+  }
