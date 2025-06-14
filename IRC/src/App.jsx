@@ -93,7 +93,7 @@ function App() {
                 </NavLink>
               </li>
               <li className="dropdown">
-                <NavLink  className={({ isActive }) => isActive ? activeClassName : undefined}>
+                <NavLink >
                   กฎหมาย
                 </NavLink>
                 <ul className="dropdown-menu">
