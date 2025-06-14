@@ -49,6 +49,7 @@ function RegisterForm() {
   };
 
   return (
+    <div class="login-container">
     <div className="login-wrap">
       <h2>Register</h2>
       <div className="form">
@@ -88,6 +89,7 @@ function RegisterForm() {
           <p>Already have an account? Login</p>
         </a>
       </div>
+    </div>
     </div>
   );
 }
