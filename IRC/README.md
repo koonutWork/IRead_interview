@@ -60,6 +60,16 @@ IRC/
 
 ---
 
+
+## โครงสร้าง table of data base iread
+```bash
+CREATE TABLE customers (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Email VARCHAR(255) NOT NULL,
+    password VARCHAR(100) NOT NULL
+);
+```
+
 ## การติดตั้งและการใช้งาน
 ### 1. Extract node_modules.zip จาก .zip file ใน node_modules folder
 ### 2. ติดตั้ง Dependencies
