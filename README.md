@@ -60,6 +60,16 @@ IRC/
 
 ---
 
+
+## โครงสร้าง table of data base iread
+```bash
+CREATE TABLE customers (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Email VARCHAR(255) NOT NULL,
+    password VARCHAR(100) NOT NULL
+);
+```
+
 ## การติดตั้งและการใช้งาน
 ### 1. Extract node_modules.zip จาก .zip file ใน node_modules folder
 ### 2. ติดตั้ง Dependencies
@@ -108,7 +118,7 @@ API Endpoints
 ข้อมูลที่ต้องส่ง: { "email": "example@email.com", "password": "securepassword" }
 3. POST /ask
 ใช้สำหรับส่งข้อความสนทนาไปยัง AI
-ข้อมูลที่ต้องส่ง: { "messages": [{ "role": "user", "content": "ข้อความ" }] }
+ข้อมูลที่ต้องส่ง: { "query": "ข้อความ"}
 
 
 การพัฒนาเพิ่มเติม
